@@ -1,0 +1,4 @@
+<Solution>
+  <Folder Name="/ecommerce.ui/" />
+  <Project Path="ecommerce.api/ecommerce.api.csproj" />
+</Solution>
