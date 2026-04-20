@@ -1,4 +1,5 @@
 <Solution>
   <Folder Name="/ecommerce.ui/" />
+  <Project Path="api.utility/api.utility.csproj" Id="fead1a50-cc03-4811-a6e1-cbeb7f11b287" />
   <Project Path="ecommerce.api/ecommerce.api.csproj" />
 </Solution>
