@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace ecommerce.api.Models.Domain.Entities.Users
 {
-    public class RoleClaimApp: IdentityRoleClaim<string>
+    public class RoleClaim : IdentityRoleClaim<Guid>
     {
     }
 }

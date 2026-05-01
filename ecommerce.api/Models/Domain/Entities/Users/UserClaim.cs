@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace ecommerce.api.Models.Domain.Entities.Users
 {
-    public class UserTokenApp: IdentityUserToken<string>
+    public class UserClaim : IdentityUserClaim<Guid>
     {
     }
 }

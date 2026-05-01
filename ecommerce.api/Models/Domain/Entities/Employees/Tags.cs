@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace ecommerce.api.Models.Domain.Entities.Employees
+{
+    public class Tags
+    {
+        public Tags()
+        {
+            Id = Guid.CreateVersion7();
+        }
+        public Guid Id { get; set; }
+        public ICollection<ProductsJoinTags> ProductsJoinTags { get; set; }
+    }
+}

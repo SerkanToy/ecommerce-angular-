@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+using System;
 
 namespace ecommerce.api.Models.Domain.Entities.Users
 {
-    public class RoleApp: IdentityRole<string>
+    public class RoleApp: IdentityRole<Guid>
     {
-        [NotMapped]
-        public ICollection<UserRoleApp>? UserRoles { get; set; }
+        public RoleApp()
+        {
+            Id = Guid.CreateVersion7();
+        }
     }
 }

@@ -1,24 +1,32 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using electronic.Domain.Entities.Employees.Address;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ecommerce.api.Models.Domain.Entities.Users
 {
-    public class UserApp : IdentityUser<string>
+    public class UserApp: IdentityUser<Guid>
     {
         public UserApp()
         {
-            Id = Guid.NewGuid().ToString();
+            Id = Guid.CreateVersion7();
+            IsActive = true;
+            IsDeleted = false;
         }
         public string Name { get; set; }
         public string SurName { get; set; }
-        public string? TCNo { get; set; }
-        public string RefreshToken { get; set; }
-        public string RefreshTokenExpireDate { get; set; }
-        [NotMapped]
-        public ICollection<UserRoleApp>? UserRoles { get; set; }
-        public ICollection<UserAddress>? UserAddress { get; set; }
+        public string Salt { get; set; }
+        public ICollection<Address>? Addresses { get; set; }
 
+        #region Audit Log
+            public DateTimeOffset CreateAt { get; set; }
+            public Guid CreateUserId { get; set; } = default!;
+            public DateTimeOffset? UpdateAt { get; set; }
+            public Guid? UpdateUserId { get; set; }
+            public bool IsActive { get; set; }
+            public bool IsDeleted { get; set; }
+            public DateTimeOffset? DeleteAt { get; set; }
+            public Guid? DeleteUserId { get; set; }
+        #endregion
     }
 }
