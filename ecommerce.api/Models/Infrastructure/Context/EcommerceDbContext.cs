@@ -1,5 +1,5 @@
 ﻿using ecommerce.api.Models.Domain.Entities.Users;
-using electronik.Domain.Entities.Users;
+using ecommerce.api.Models.Infrastructure.Context.Configurations.UserCon;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;

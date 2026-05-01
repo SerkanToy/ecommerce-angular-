@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ecommerce.api.Models.Domain.Entities.Users;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace ecommerce.api.Models.Domain.Abstractions
 {

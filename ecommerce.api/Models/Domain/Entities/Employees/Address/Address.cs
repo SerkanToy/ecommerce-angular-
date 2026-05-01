@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ecommerce.api.Models.Domain.Abstractions;
+using ecommerce.api.Models.Domain.Entities.Users;
+using System;
 
 namespace ecommerce.api.Models.Domain.Entities.Employees.Address;
 
