@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Application\" />
+    <Folder Include="Models\Application\Extensions\" />
   </ItemGroup>
 
   <ItemGroup>
