@@ -10,8 +10,6 @@ namespace ecommerce.api.Models.Domain.Abstractions
 {
     public abstract class Entity
     {
-        public Guid Id { get; set; }
-
         #region Audit Log
         public bool IsActive { get; set; } = true;
         public DateTimeOffset CreateAt { get; set; }

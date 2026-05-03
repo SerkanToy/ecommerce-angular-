@@ -10,6 +10,7 @@ namespace ecommerce.api.Models.Domain.Entities.Employees
         {
             Id = Guid.CreateVersion7();
         }
+        public Guid Id { get; set; }
         public ICollection<ProductJoinCoupon> ProductJoinCoupons { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ecommerce.api.Models.Infrastructure.Context.Configurations.UserCon
 {
-    public class RoleClaimConfiguration : IEntityTypeConfiguration<RoleClaim>
+    public class AddressConfiguration : IEntityTypeConfiguration<RoleClaim>
     {
         public void Configure(EntityTypeBuilder<RoleClaim> builder)
         {

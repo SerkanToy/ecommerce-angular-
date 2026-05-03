@@ -62,8 +62,8 @@ nunit-*.xml
 #ecommerce.dashboards/wwwroot/**
 #ecommerce.webui/wwwroot/**
 
-#ecommerce.api/Migrations
-#ecommerce.api/Migrations/**
+ecommerce.api/Migrations
+ecommerce.api/Migrations/**
 #ecommerce.Infrastructure/Context
 #ecommerce.Infrastructure/Context/**
 #ecommerce.Infrastructure/Configurations

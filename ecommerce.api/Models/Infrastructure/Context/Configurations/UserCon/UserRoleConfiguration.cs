@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Collections.Generic;
 
 namespace ecommerce.api.Models.Infrastructure.Context.Configurations.UserCon
 {
@@ -10,6 +9,14 @@ namespace ecommerce.api.Models.Infrastructure.Context.Configurations.UserCon
         {
             builder.ToTable("UserRoles");
             builder.HasKey(ur => new { ur.UserId, ur.RoleId });
+                builder.HasOne(ur => ur.UserApp)
+                    .WithMany(u => u.UserRoles)
+                    .HasForeignKey(ur => ur.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(ur => ur.RoleApp)
+                    .WithMany(r => r.UserRoles)
+                    .HasForeignKey(ur => ur.RoleId)
+                    .OnDelete(DeleteBehavior.Cascade);
         }
 
         /*private List<UserRole> roles()

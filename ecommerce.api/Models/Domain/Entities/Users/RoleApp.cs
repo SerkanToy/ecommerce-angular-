@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ecommerce.api.Models.Infrastructure.Context.Configurations.UserCon;
+using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 
 namespace ecommerce.api.Models.Domain.Entities.Users
 {
@@ -9,5 +11,6 @@ namespace ecommerce.api.Models.Domain.Entities.Users
         {
             Id = Guid.CreateVersion7();
         }
+        public ICollection<UserRole>? UserRoles { get; set; }
     }
 }

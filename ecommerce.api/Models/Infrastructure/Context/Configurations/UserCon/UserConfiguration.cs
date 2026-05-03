@@ -1,5 +1,6 @@
 ﻿using ecommerce.api.Models.Domain.Entities.Users;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -14,6 +15,8 @@ namespace ecommerce.api.Models.Infrastructure.Context.Configurations.UserCon
             builder.ToTable("Users");
             builder.HasKey(u => u.Id);
             builder.HasIndex(u => u.Email).IsUnique();
+            builder.HasMany(u => u.UserRoles).WithOne(y => y.UserApp).OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(u => u.Addresses).WithOne(y => y.UserApp).OnDelete(DeleteBehavior.Cascade);
             builder.HasData(User());
         }
 
@@ -30,14 +33,15 @@ namespace ecommerce.api.Models.Infrastructure.Context.Configurations.UserCon
                 NormalizedUserName = "XXX",
                 NormalizedEmail = "XXX@XXX.COM",
                 SecurityStamp = Guid.NewGuid().ToString(),
-                ConcurrencyStamp = Guid.NewGuid().ToString(),
-                Salt = CreatePasswordHash("Xxx123.").Item2,
-                PasswordHash = CreatePasswordHash("Xxx123.").Item1                
+                ConcurrencyStamp = Guid.NewGuid().ToString()
             };
+            user.CreateUserId = user.Id;
+            user.PasswordHash = CreatePasswordHash(user, "Xxx123.");
+            user.Salt = CreatePasswordHash("Xxx123.");
             return user;
         }
 
-        private Tuple<string, string> CreatePasswordHash(string password)
+        private string CreatePasswordHash(string password)
         {
             byte[] salt = RandomNumberGenerator.GetBytes(128 / 8);
             string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
@@ -46,7 +50,13 @@ namespace ecommerce.api.Models.Infrastructure.Context.Configurations.UserCon
                 prf: KeyDerivationPrf.HMACSHA256,
                 iterationCount: 100000,
                 numBytesRequested: 256 / 8));
-            return Tuple.Create(hashed, salt.ToString())!;
+            return hashed;
+        }
+
+        private string CreatePasswordHash(UserApp user, string password)
+        {
+            var passwordHash = new PasswordHasher<UserApp>();
+            return passwordHash.HashPassword(user, password);
         }
 
 

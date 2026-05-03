@@ -11,6 +11,7 @@ namespace ecommerce.api.Models.Infrastructure.Context.Configurations.UserCon
         {
             builder.ToTable("Roles");
             builder.HasKey(u => u.Id);
+            builder.HasMany(u => u.UserRoles).WithOne(y => y.RoleApp).OnDelete(DeleteBehavior.Cascade);
             builder.HasData(roles());
         }
 
