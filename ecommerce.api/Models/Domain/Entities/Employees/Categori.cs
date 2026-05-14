@@ -14,6 +14,6 @@ namespace ecommerce.api.Models.Domain.Entities.Employees
         public string Name { get; set; }
         public string Description { get; set; }
         public string? icon { get; set; }
-        public ICollection<ProductJoinCategori> ProductJoinCategori { get; set; }
+        public ICollection<ProductJoinCategori>? ProductJoinCategori { get; set; }
     }
 }

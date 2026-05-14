@@ -6,7 +6,7 @@ namespace ecommerce.api.Models.Infrastructure.Context.Configurations.UserCon
 {
     public class UserRole : IdentityUserRole<Guid>
     {
-        public UserApp UserApp { get; set; }
-        public RoleApp RoleApp { get; set; }
+        public UserApp? UserApp { get; set; }
+        public RoleApp? RoleApp { get; set; }
     }
 }

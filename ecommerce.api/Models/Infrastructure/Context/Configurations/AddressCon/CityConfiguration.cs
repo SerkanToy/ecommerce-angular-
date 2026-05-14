@@ -9,14 +9,14 @@ namespace ecommerce.api.Models.Infrastructure.Context.Configurations.AddressCon
         public void Configure(EntityTypeBuilder<City> builder)
         {
             builder.ToTable("City");
-            ConfigureRelations(builder);
             builder.HasKey(rc => rc.Id);
+            ConfigureRelations(builder);
         }
 
         private void ConfigureRelations(EntityTypeBuilder<City> builder)
         {
-            builder.HasMany(c => c.Town).WithOne(c => c.City).HasForeignKey(c => c.CityId);
-            builder.HasOne(c => c.Country).WithMany(c => c.City).HasForeignKey(c => c.CountryId);
+            builder.HasMany(c => c.Town).WithOne(c => c.City).HasForeignKey(c => c.CityId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(c => c.Country).WithMany(c => c.City).HasForeignKey(c => c.CountryId).OnDelete(DeleteBehavior.NoAction);
         }
 
 

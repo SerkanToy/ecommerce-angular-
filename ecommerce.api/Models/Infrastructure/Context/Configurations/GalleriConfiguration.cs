@@ -15,7 +15,7 @@ namespace ecommerce.api.Models.Infrastructure.Context.Configurations
 
         private void ConfigureRelations(EntityTypeBuilder<Galleri> builder)
         {
-            builder.HasOne(c => c.Product).WithMany(pjc => pjc.Galleries).HasForeignKey(pjc => pjc.ProductId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(c => c.Product).WithMany(pjc => pjc.Galleries).HasForeignKey(pjc => pjc.ProductId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

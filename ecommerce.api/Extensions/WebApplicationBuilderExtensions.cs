@@ -1,32 +1,29 @@
 ﻿using api.utility;
 using ecommerce.api.Models.Domain.Entities.Users;
 using ecommerce.api.Models.Infrastructure.Context;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using System;
 
 namespace ecommerce.api.Extensions
 {
     public static class WebApplicationBuilderExtensions
     {
-        public static WebApplicationBuilder AddApplicationServer(this WebApplicationBuilder builder)
+        public static IServiceCollection AddApplicationServer(this IServiceCollection service, IConfiguration configuration)
         {
-            builder.Services.AddDbContext<EcommerceDbContext>(options =>
+            service.AddDbContext<EcommerceDbContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                string connectionString = configuration.GetConnectionString("SqlServer")!;
+                options.UseSqlServer(connectionString);
             });
 
-
-            return builder;
+            return service;
         }
 
-        public static WebApplicationBuilder AddAuthenticationService(this WebApplicationBuilder builder)
+        public static IServiceCollection AddAuthenticationService(this IServiceCollection service)
         {
-            builder.Services.AddIdentityCore<UserApp>(opt =>
+            service.AddIdentityCore<UserApp>(opt =>
             {
                 opt.Password.RequiredLength = SD.RequiredPasswordLength;
                 opt.Password.RequireDigit = false;
@@ -40,9 +37,8 @@ namespace ecommerce.api.Extensions
                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromDays(SD.DefaultLockoutTimeSpanInDays);
             })
             .AddRoles<RoleApp>()
-            .AddEntityFrameworkStores<EcommerceDbContext>()
-            .AddDefaultTokenProviders();
-            return builder;
+            .AddEntityFrameworkStores<EcommerceDbContext>();
+            return service;
         }
     }
 }

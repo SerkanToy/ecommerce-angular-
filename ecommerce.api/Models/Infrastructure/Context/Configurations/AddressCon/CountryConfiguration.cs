@@ -1,6 +1,8 @@
-﻿using ecommerce.api.Models.Domain.Entities.Employees.Address;
+﻿using ecommerce.api.Models.Domain.Entities.Employees;
+using ecommerce.api.Models.Domain.Entities.Employees.Address;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 using System.Collections.Generic;
 
 namespace ecommerce.api.Models.Infrastructure.Context.Configurations.AddressCon
@@ -9,42 +11,41 @@ namespace ecommerce.api.Models.Infrastructure.Context.Configurations.AddressCon
     {
         public void Configure(EntityTypeBuilder<Country> builder)
         {
-            builder.ToTable("Country");
-            ConfigureRelations(builder);
             builder.HasKey(rc => rc.Id);
-            builder.HasData(GetCountry());
+            builder.HasMany(c => c.City).WithOne(c => c.Country).OnDelete(DeleteBehavior.NoAction);
+            Datas(builder);
         }
 
-        private void ConfigureRelations(EntityTypeBuilder<Country> builder)
+        private void Datas(EntityTypeBuilder<Country> builder)
         {
-            builder.HasMany(c => c.City).WithOne(c => c.Country).HasForeignKey(c => c.CountryId);
-        }
-
-        private List<Country> GetCountry()
-        {
-            var country = new List<Country> {
+            builder.HasData(new List<Country>()
+            {
                 new Country
                 {
+                    Id = Guid.CreateVersion7(),
                     Name = "Turkey"
                 },
                 new Country
                 {
+                    Id = Guid.CreateVersion7(),
                     Name = "Almanya"
                 },
                 new Country
                 {
+                    Id = Guid.CreateVersion7(),
                     Name = "ABD"
                 },
                 new Country
                 {
+                    Id = Guid.CreateVersion7(),
                     Name = "Çin"
                 },
                 new Country
                 {
+                    Id = Guid.CreateVersion7(),
                     Name = "Kore Cumhuriyeti"
                 }
-            };
-            return country;
+            });
         }
     }
 }

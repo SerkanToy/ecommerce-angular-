@@ -4,9 +4,8 @@ using ecommerce.api.Models.Domain.Entities.Users;
 using ecommerce.api.Models.Infrastructure.Context.Configurations.UserCon;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
-using System.Reflection;
-using System.Reflection.Emit;
 
 namespace ecommerce.api.Models.Infrastructure.Context;
 
@@ -46,10 +45,38 @@ public class EcommerceDbContext : IdentityDbContext<UserApp, RoleApp, Guid, User
     public DbSet<ProductsJoinTags> ProductsJoinTags { get; set; }
     public DbSet<ProductJoinCoupon> ProductJoinCoupon { get; set; }
 
-
-    protected void OnModelCreating(ModelBuilder builder)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
+    }
+
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.ApplyConfigurationsFromAssembly(typeof(EcommerceDbContext).Assembly);
         base.OnModelCreating(builder);
-        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        /*builder.ApplyConfiguration(new RoleClaimConfiguration());
+            builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfiguration(new UserClaimConfiguration());
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new UserLoginConfiguration());
+            builder.ApplyConfiguration(new UserRoleConfiguration());
+            builder.ApplyConfiguration(new UserTokenConfiguration());
+
+            builder.ApplyConfiguration(new AddressConfiguration());
+            builder.ApplyConfiguration(new CityConfiguration());
+            builder.ApplyConfiguration(new CountryConfiguration());
+            builder.ApplyConfiguration(new TownConfiguration());
+
+            builder.ApplyConfiguration(new RoleClaimConfiguration());
+            builder.ApplyConfiguration(new RoleClaimConfiguration());
+            builder.ApplyConfiguration(new RoleClaimConfiguration());
+            builder.ApplyConfiguration(new RoleClaimConfiguration());
+            builder.ApplyConfiguration(new RoleClaimConfiguration());
+            builder.ApplyConfiguration(new RoleClaimConfiguration());
+            builder.ApplyConfiguration(new RoleClaimConfiguration());
+            builder.ApplyConfiguration(new RoleClaimConfiguration());
+            builder.ApplyConfiguration(new RoleClaimConfiguration());*/
     }
 }

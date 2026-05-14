@@ -10,6 +10,7 @@ namespace ecommerce.api.Models.Domain.Entities.Employees
             Id = Guid.CreateVersion7();
         }
         public Guid Id { get; set; }
-        public ICollection<ProductsJoinTags> ProductsJoinTags { get; set; }
+        public string Name { get; set; }
+        public ICollection<ProductsJoinTags>? ProductsJoinTags { get; set; }
     }
 }

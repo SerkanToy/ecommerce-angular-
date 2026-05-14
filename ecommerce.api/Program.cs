@@ -5,13 +5,13 @@ using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.AddApplicationServer();
-builder.AddAuthenticationService();
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+// Add services to the container.
+builder.Services.AddApplicationServer(builder.Configuration);
+builder.Services.AddAuthenticationService();
+
 
 var app = builder.Build();
 

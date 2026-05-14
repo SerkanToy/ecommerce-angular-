@@ -12,8 +12,8 @@ namespace ecommerce.api.Models.Domain.Abstractions
     {
         #region Audit Log
         public bool IsActive { get; set; } = true;
-        public DateTimeOffset CreateAt { get; set; }
-        public Guid CreateUserId { get; set; } = default!;
+        public DateTimeOffset CreateAt { get; set; } = DateTimeOffset.Now;
+        public Guid CreateUserId { get; set; }
         public string CreateUserName => GetCreateUserName();
         public DateTimeOffset? UpdateAt { get; set; }
         public Guid? UpdateUserId { get; set; }

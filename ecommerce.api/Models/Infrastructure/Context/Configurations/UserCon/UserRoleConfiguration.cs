@@ -12,11 +12,11 @@ namespace ecommerce.api.Models.Infrastructure.Context.Configurations.UserCon
                 builder.HasOne(ur => ur.UserApp)
                     .WithMany(u => u.UserRoles)
                     .HasForeignKey(ur => ur.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(ur => ur.RoleApp)
                     .WithMany(r => r.UserRoles)
                     .HasForeignKey(ur => ur.RoleId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.NoAction);
         }
 
         /*private List<UserRole> roles()

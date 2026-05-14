@@ -15,8 +15,8 @@ namespace ecommerce.api.Models.Infrastructure.Context.Configurations.AddressCon
 
         private void ConfigureRelations(EntityTypeBuilder<Town> builder)
         {
-            builder.HasMany(c => c.Address).WithOne(c => c.Town).HasForeignKey(c => c.TownId);
-            builder.HasOne(c => c.City).WithMany(c => c.Town).HasForeignKey(c => c.CityId);
+            builder.HasMany(c => c.Address).WithOne(c => c.Town).HasForeignKey(c => c.TownId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(c => c.City).WithMany(c => c.Town).HasForeignKey(c => c.CityId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

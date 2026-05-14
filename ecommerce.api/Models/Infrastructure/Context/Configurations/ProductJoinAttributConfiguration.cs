@@ -9,14 +9,15 @@ namespace ecommerce.api.Models.Infrastructure.Context.Configurations
         public void Configure(EntityTypeBuilder<ProductJoinAttribut> builder)
         {
             builder.ToTable("ProductJoinAttribut");
-            ConfigureRelations(builder);
+            builder.HasOne(c => c.Product).WithMany(pjc => pjc.ProductJoinAttributs).HasForeignKey(pjc => pjc.ProductId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(c => c.Attributs).WithMany(pjc => pjc.ProductJoinAttributs).HasForeignKey(pjc => pjc.AttributId).OnDelete(DeleteBehavior.NoAction);
             builder.HasKey(rc => rc.Id);
         }
 
         private void ConfigureRelations(EntityTypeBuilder<ProductJoinAttribut> builder)
         {
-            builder.HasOne(c => c.Product).WithMany(pjc => pjc.ProductJoinAttributs).HasForeignKey(pjc => pjc.ProductId).OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(c => c.Attributs).WithMany(pjc => pjc.ProductJoinAttributs).HasForeignKey(pjc => pjc.AttributId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(c => c.Product).WithMany(pjc => pjc.ProductJoinAttributs).HasForeignKey(pjc => pjc.ProductId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(c => c.Attributs).WithMany(pjc => pjc.ProductJoinAttributs).HasForeignKey(pjc => pjc.AttributId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

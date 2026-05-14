@@ -13,6 +13,7 @@ namespace ecommerce.api.Models.Domain.Entities.Users
             Id = Guid.CreateVersion7();
             IsActive = true;
             IsDeleted = false;
+            CreateAt = DateTimeOffset.Now;
         }
         public string Name { get; set; }
         public string SurName { get; set; }
@@ -22,7 +23,7 @@ namespace ecommerce.api.Models.Domain.Entities.Users
 
         #region Audit Log
             public DateTimeOffset CreateAt { get; set; }
-            public Guid CreateUserId { get; set; } = default!;
+            public Guid CreateUserId { get; set; }
             public DateTimeOffset? UpdateAt { get; set; }
             public Guid? UpdateUserId { get; set; }
             public bool IsActive { get; set; }

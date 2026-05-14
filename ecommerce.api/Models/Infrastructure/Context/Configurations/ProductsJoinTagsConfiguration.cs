@@ -15,8 +15,8 @@ namespace ecommerce.api.Models.Infrastructure.Context.Configurations
 
         private void ConfigureRelations(EntityTypeBuilder<ProductsJoinTags> builder)
         {
-            builder.HasOne(c => c.Product).WithMany(pjc => pjc.ProductsJoinTags).HasForeignKey(pjc => pjc.TagId).OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(c => c.Tags).WithMany(pjc => pjc.ProductsJoinTags).HasForeignKey(pjc => pjc.ProductId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(c => c.Product).WithMany(pjc => pjc.ProductsJoinTags).HasForeignKey(pjc => pjc.TagId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(c => c.Tags).WithMany(pjc => pjc.ProductsJoinTags).HasForeignKey(pjc => pjc.ProductId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

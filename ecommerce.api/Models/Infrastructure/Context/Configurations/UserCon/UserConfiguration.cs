@@ -12,11 +12,10 @@ namespace ecommerce.api.Models.Infrastructure.Context.Configurations.UserCon
     {
         public void Configure(EntityTypeBuilder<UserApp> builder)
         {
-            builder.ToTable("Users");
             builder.HasKey(u => u.Id);
             builder.HasIndex(u => u.Email).IsUnique();
-            builder.HasMany(u => u.UserRoles).WithOne(y => y.UserApp).OnDelete(DeleteBehavior.Cascade);
-            builder.HasMany(u => u.Addresses).WithOne(y => y.UserApp).OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(u => u.UserRoles).WithOne(y => y.UserApp).OnDelete(DeleteBehavior.NoAction);
+            builder.HasMany(u => u.Addresses).WithOne(y => y.UserApp).OnDelete(DeleteBehavior.NoAction);
             builder.HasData(User());
         }
 
@@ -29,7 +28,7 @@ namespace ecommerce.api.Models.Infrastructure.Context.Configurations.UserCon
                 PhoneNumber = "0(000) 000 00 00",
                 Name = "Xxxxxxx",
                 SurName = "Xxx",
-                UserName = "xxx",
+                UserName = "XXX",
                 NormalizedUserName = "XXX",
                 NormalizedEmail = "XXX@XXX.COM",
                 SecurityStamp = Guid.NewGuid().ToString(),

@@ -15,8 +15,8 @@ namespace ecommerce.api.Models.Infrastructure.Context.Configurations
 
         private void ConfigureRelations(EntityTypeBuilder<ProductJoinCategori> builder)
         {
-            builder.HasOne(c => c.Categori).WithMany(pjc => pjc.ProductJoinCategori).HasForeignKey(pjc => pjc.CategoriId).OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(c => c.Product).WithMany(pjc => pjc.ProductJoinCategori).HasForeignKey(pjc => pjc.ProductId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(c => c.Categori).WithMany(pjc => pjc.ProductJoinCategori).HasForeignKey(pjc => pjc.CategoriId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(c => c.Product).WithMany(pjc => pjc.ProductJoinCategori).HasForeignKey(pjc => pjc.ProductId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

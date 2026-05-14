@@ -12,6 +12,6 @@ namespace ecommerce.api.Models.Domain.Entities.Employees
         }
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public ICollection<ProductJoinAttribut> ProductJoinAttributs { get; set; }    
+        public ICollection<ProductJoinAttribut>? ProductJoinAttributs { get; set; }    
     }
 }

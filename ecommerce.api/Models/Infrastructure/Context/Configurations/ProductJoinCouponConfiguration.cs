@@ -15,8 +15,8 @@ namespace ecommerce.api.Models.Infrastructure.Context.Configurations
 
         private void ConfigureRelations(EntityTypeBuilder<ProductJoinCoupon> builder)
         {
-            builder.HasOne(c => c.Product).WithMany(pjc => pjc.ProductJoinCoupons).HasForeignKey(pjc => pjc.CouponId).OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(c => c.Coupon).WithMany(pjc => pjc.ProductJoinCoupons).HasForeignKey(pjc => pjc.ProductId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(c => c.Product).WithMany(pjc => pjc.ProductJoinCoupons).HasForeignKey(pjc => pjc.CouponId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(c => c.Coupon).WithMany(pjc => pjc.ProductJoinCoupons).HasForeignKey(pjc => pjc.ProductId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
