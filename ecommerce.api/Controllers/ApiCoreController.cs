@@ -1,4 +1,5 @@
 ﻿using api.utility;
+using ecommerce.api.Models.Application.IServices;
 using ecommerce.api.Models.Domain.Entities.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +14,12 @@ namespace ecommerce.api.Controllers
     {
         protected UserManager<UserApp> userManager;
         protected SignInManager<UserApp> signInManager;
-        public ApiCoreController(UserManager<UserApp> userManager = null, SignInManager<UserApp> signInManager = null)
+        protected ITokenService tokenService;
+        public ApiCoreController(UserManager<UserApp> userManager = null, SignInManager<UserApp> signInManager = null, ITokenService tokenService = null)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.tokenService = tokenService;
         }
 
 

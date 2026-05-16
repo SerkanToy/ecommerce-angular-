@@ -1,4 +1,5 @@
 ﻿using api.utility;
+using ecommerce.api.Models.Application.IServices;
 using ecommerce.api.Models.Domain.DTOs;
 using ecommerce.api.Models.Domain.DTOs.Account;
 using ecommerce.api.Models.Domain.DTOs.UserDto;
@@ -19,7 +20,7 @@ namespace ecommerce.api.Controllers
     public class AccountController : ApiCoreController
     {
         //private UserManager<UserApp> userManager;
-        public AccountController(UserManager<UserApp> userManager, SignInManager<UserApp> signInManager) : base(userManager, signInManager)
+        public AccountController(UserManager<UserApp> userManager, SignInManager<UserApp> signInManager, ITokenService tokenService) : base(userManager, signInManager, tokenService)
         {
             //this.userManager = userManager;
         }
@@ -82,6 +83,11 @@ namespace ecommerce.api.Controllers
             if (!result.Succeeded) return BadRequest(result.Errors);
 
             return Ok("İşlem Başarılı");
+        }
+
+        private void SetJWTCookie(string jwt)
+        {
+
         }
 
         private string CreatePasswordHash(string password)

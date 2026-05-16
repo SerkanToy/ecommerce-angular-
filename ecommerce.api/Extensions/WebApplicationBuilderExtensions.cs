@@ -1,4 +1,6 @@
 ﻿using api.utility;
+using ecommerce.api.Models.Application.IServices;
+using ecommerce.api.Models.Application.Services;
 using ecommerce.api.Models.Domain.Entities.Users;
 using ecommerce.api.Models.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +40,8 @@ namespace ecommerce.api.Extensions
             })
             .AddRoles<RoleApp>()
             .AddEntityFrameworkStores<EcommerceDbContext>();
+
+            service.AddTransient(typeof(ITokenService), typeof(TokenService));
             return service;
         }
     }
