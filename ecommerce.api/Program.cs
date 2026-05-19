@@ -10,19 +10,13 @@ builder.Services.AddOpenApi();
 
 // Add services to the container.
 builder.Services.AddApplicationServer(builder.Configuration);
-builder.Services.AddAuthenticationService();
+builder.AddAuthenticationService();
 
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

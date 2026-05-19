@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace ecommerce.api.Controllers
@@ -23,12 +24,14 @@ namespace ecommerce.api.Controllers
         private SignInManager<UserApp> _signInManager;
         private ITokenService _tokenService;
         private IConfiguration _config;
+        private HttpContext _httpContext;
 
         protected EcommerceDbContext Context => _context ??= HttpContext.RequestServices.GetService<EcommerceDbContext>();
         protected UserManager<UserApp> userManager => _userManager ?? HttpContext.RequestServices.GetService(typeof(UserManager<UserApp>)) as UserManager<UserApp>;
         protected SignInManager<UserApp> signInManager => _signInManager ?? HttpContext.RequestServices.GetService(typeof(SignInManager<UserApp>)) as SignInManager<UserApp>;
         protected ITokenService tokenService => _tokenService ?? HttpContext.RequestServices.GetService(typeof(ITokenService)) as ITokenService;
         protected IConfiguration configuration => _config ?? HttpContext.RequestServices.GetService(typeof(IConfiguration)) as IConfiguration;
+        protected HttpContext httpContext => _httpContext ??= HttpContext;
 
 
 
@@ -81,7 +84,6 @@ namespace ecommerce.api.Controllers
                 int remaining = SD.MaxFailedAccessAttempts - user.AccessFailedCount;
                 return $"Invalid password. {remaining} attempts remaining before account lockout.";
             }
-
             user.LockoutEnd = null;
             await userManager.ResetAccessFailedCountAsync(user);
             await Context.SaveChangesAsync();
@@ -90,6 +92,7 @@ namespace ecommerce.api.Controllers
 
         protected async Task<UserAppDto> CreateAppUserDtoAsync(UserApp user) 
         {
+            RemoveJwtCookie();
             string jwt = await tokenService.CreateJWTAsync(user);
             SetJWTCookie(jwt);
             return new UserAppDto
@@ -102,18 +105,21 @@ namespace ecommerce.api.Controllers
         private void SetJWTCookie(string jwt)
         {
             var cookieOptions = new CookieOptions
-            {
+            {                
+                //Domain = "https://localhost:7285",
                 IsEssential = true,
                 HttpOnly = true,
                 Secure = true,
+                SameSite = SameSiteMode.None,
                 Expires = DateTime.UtcNow.AddDays(int.Parse(configuration["Jwt:ExpiresInDays"]))
             };
-            Response.Cookies.Append(SD.IdentityAppCookie, jwt, cookieOptions);
+            httpContext.Response.Cookies.Append(SD.IdentityAppCookie, jwt, cookieOptions);
+            //Response.Cookies.Append(SD.IdentityAppCookie, jwt, cookieOptions);
         }
 
         protected void RemoveJwtCookie()
         {
-            Response.Cookies.Delete(SD.IdentityAppCookie);
+            httpContext.Response.Cookies.Delete(SD.IdentityAppCookie);
         }
     }
 }

@@ -2,6 +2,7 @@
 using ecommerce.api.Models.Domain.DTOs;
 using ecommerce.api.Models.Domain.DTOs.Account;
 using ecommerce.api.Models.Domain.Entities.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,7 @@ namespace ecommerce.api.Controllers
         [ActionName("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            RemoveJwtCookie();
+            
             var user = await userManager.Users.Where(u => u.Email == loginDto.Email.Trim()).FirstOrDefaultAsync();
 
             if(user == null)
@@ -49,9 +50,15 @@ namespace ecommerce.api.Controllers
                 RemoveJwtCookie();
                 return Unauthorized(new ApiResponse(401, message: message, displayByDefault: true, isHtmlEnabled: true));
             }
-            
             return Ok(await CreateAppUserDtoAsync(user));
-        }
+        } 
+
+        [HttpGet]
+        public async Task<IActionResult> Deneme()
+        {
+            var data = User.Identity?.IsAuthenticated ?? false;
+            return Ok(new { IsAuthenticated = data });
+        } 
 
         [HttpPost]
         [ActionName("register")]
@@ -87,8 +94,10 @@ namespace ecommerce.api.Controllers
 
             if (!result.Succeeded) return BadRequest(result.Errors);
 
-            return Ok("İşlem Başarılı");
+            return Ok($"İşlem Başarılı");
         }
+
+
 
         
 
