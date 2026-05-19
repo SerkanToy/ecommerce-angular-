@@ -1,8 +1,6 @@
 ﻿using api.utility;
-using ecommerce.api.Models.Application.IServices;
 using ecommerce.api.Models.Domain.DTOs;
 using ecommerce.api.Models.Domain.DTOs.Account;
-using ecommerce.api.Models.Domain.DTOs.UserDto;
 using ecommerce.api.Models.Domain.Entities.Users;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Identity;
@@ -20,15 +18,19 @@ namespace ecommerce.api.Controllers
     public class AccountController : ApiCoreController
     {
         //private UserManager<UserApp> userManager;
-        public AccountController(UserManager<UserApp> userManager, SignInManager<UserApp> signInManager, ITokenService tokenService) : base(userManager, signInManager, tokenService)
+        /*public AccountController(UserManager<UserApp> userManager, 
+                                SignInManager<UserApp> signInManager, 
+                                ITokenService tokenService, IConfiguration configuration) 
+            : base(userManager, signInManager, tokenService, configuration)
         {
             //this.userManager = userManager;
-        }
+        }*/
 
         [HttpPost]
         [ActionName("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
+            RemoveJwtCookie();
             var user = await userManager.Users.Where(u => u.Email == loginDto.Email.Trim()).FirstOrDefaultAsync();
 
             if(user == null)
@@ -40,15 +42,15 @@ namespace ecommerce.api.Controllers
             if(!user.IsActive)
                 return Unauthorized(new ApiResponse(401, message: SM.T_AccountSuspended, displayByDefault: true));
 
-            var result = await signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+            var message = await UserPasswordValidationAsync(user, loginDto.Password, false);
 
-            if(!result.Succeeded)
+            if (!string.IsNullOrEmpty(message))
             {
                 RemoveJwtCookie();
-                return Unauthorized(new ApiResponse(401, message: "İşlem Başarısız.", displayByDefault: true));
+                return Unauthorized(new ApiResponse(401, message: message, displayByDefault: true, isHtmlEnabled: true));
             }
-
-            return Ok("Register successful");
+            
+            return Ok(await CreateAppUserDtoAsync(user));
         }
 
         [HttpPost]
@@ -74,6 +76,9 @@ namespace ecommerce.api.Controllers
                 Salt = CreatePasswordHash(registerDto.Password)
             };
 
+            user.CreateUserId = user.Id;
+            user.CreateAt = DateTimeOffset.UtcNow;
+
             IdentityResult result = await userManager.CreateAsync(user, registerDto.Password);
 
             if (!result.Succeeded) return BadRequest(result.Errors);
@@ -85,10 +90,7 @@ namespace ecommerce.api.Controllers
             return Ok("İşlem Başarılı");
         }
 
-        private void SetJWTCookie(string jwt)
-        {
-
-        }
+        
 
         private string CreatePasswordHash(string password)
         {

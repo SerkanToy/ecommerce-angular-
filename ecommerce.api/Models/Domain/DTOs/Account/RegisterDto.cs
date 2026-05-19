@@ -7,7 +7,7 @@ namespace ecommerce.api.Models.Domain.DTOs.Account
     {
         [Required]
         [EmailAddress]
-        [StringLength(20, MinimumLength = 3, ErrorMessage = "E-Posta en az 3 en fazla 20 karakter olmalıdır.")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "E-Posta en az 3 en fazla 50 karakter olmalıdır.")]
         [RegularExpression(SD.EmailRegex, ErrorMessage = "Geçerli E-Posta Adresi giriniz.")]
         public string Email { get; set; }
         [Required]
