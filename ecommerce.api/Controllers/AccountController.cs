@@ -1,6 +1,8 @@
 ﻿using api.utility;
+using ecommerce.api.Extensions;
 using ecommerce.api.Models.Domain.DTOs;
 using ecommerce.api.Models.Domain.DTOs.Account;
+using ecommerce.api.Models.Domain.DTOs.UserDto;
 using ecommerce.api.Models.Domain.Entities.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
@@ -51,7 +53,32 @@ namespace ecommerce.api.Controllers
                 return Unauthorized(new ApiResponse(401, message: message, displayByDefault: true, isHtmlEnabled: true));
             }
             return Ok(await CreateAppUserDtoAsync(user));
-        } 
+        }
+
+        [Authorize]
+        [HttpGet]
+        [ActionName("")]
+        public async Task<ActionResult<UserAppDto>> RefreshAppUser()
+        {
+            var user = await userManager.Users.Where(x => x.Id == User.GetUserId()).FirstOrDefaultAsync();
+            if(user is null)
+            {
+                RemoveJwtCookie();
+                return Unauthorized(new ApiResponse(401, message: "Kullanıcı bulunamadı", displayByDefault: true));
+            }
+            
+
+            return Ok(await CreateAppUserDtoAsync(user));
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ActionName("logout")]
+        public IActionResult Logout()
+        {
+            RemoveJwtCookie();
+            return NoContent();
+        }
 
         [HttpGet]
         public async Task<IActionResult> Deneme()
