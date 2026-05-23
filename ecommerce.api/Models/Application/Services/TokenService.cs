@@ -34,6 +34,8 @@ namespace ecommerce.api.Models.Application.Services
             var tokenDescription = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(clams),
+                Issuer = configuration["JWT:Issuer"],
+                Audience = configuration["JWT:Audience"],
                 Expires = DateTime.UtcNow.AddDays(int.Parse(configuration["JWT:ExpiresInDays"])),
                 SigningCredentials = credentials,
             };

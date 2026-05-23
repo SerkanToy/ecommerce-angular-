@@ -1,7 +1,6 @@
 using ecommerce.api.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +13,16 @@ builder.AddAuthenticationService();
 
 
 var app = builder.Build();
+
+app.UseCors(x => x.AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed(origin => true).AllowCredentials());
+
+/*app.UseCors(opt =>
+{
+    opt.AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials()
+    .WithOrigins(builder.Configuration["JWT:ClientUrl"]);
+});*/
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

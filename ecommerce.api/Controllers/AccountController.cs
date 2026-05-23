@@ -71,6 +71,21 @@ namespace ecommerce.api.Controllers
             return Ok(await CreateAppUserDtoAsync(user));
         }
 
+        [HttpGet]
+        [ActionName("name-taken")]
+        public async Task<IActionResult> NameTaken([FromQuery] string name)
+        {
+            return Ok(new { IsToken = await  CheckNameExistsAsync(name) });
+        }
+
+        [HttpGet]
+        [ActionName("email-taken")]
+        public async Task<IActionResult> EmailTaken([FromQuery] string email)
+        {
+            return Ok(new { IsToken = await CheckEmailExistsAsync(email) });
+        }
+
+
         [Authorize]
         [HttpPost]
         [ActionName("logout")]

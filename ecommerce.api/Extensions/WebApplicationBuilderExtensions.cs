@@ -63,8 +63,8 @@ namespace ecommerce.api.Extensions
                 {
                    ValidateIssuerSigningKey = true,
                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
-                   //ValidIssuer = builder.Configuration["JWT:Issuer"],
-                   ValidateIssuer = false,
+                   ValidIssuer = builder.Configuration["JWT:Issuer"],
+                   ValidateIssuer = true,
                    //ValidAudience = builder.Configuration["JWT:Audience"],
                    ValidateAudience = false,
                    ValidateLifetime = true,
@@ -76,6 +76,7 @@ namespace ecommerce.api.Extensions
                     OnMessageReceived = context =>
                     {
                         //context.Response.Cookies.Append(SD.IdentityAppCookie, context.Request.Cookies[SD.IdentityAppCookie] ?? string.Empty);
+                        context.Response.Headers.Add(SD.IdentityAppCookie,"true");
                         context.Token = context.Request.Cookies[SD.IdentityAppCookie];
                         return Task.CompletedTask;
                     }
