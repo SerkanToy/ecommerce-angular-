@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Net;
 using System.Threading.Tasks;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace ecommerce.api.Controllers
 {
@@ -71,7 +71,7 @@ namespace ecommerce.api.Controllers
                 RemoveJwtCookie();
                 return SD.AccountLockedMessage(user.LockoutEnd.Value.DateTime);
             }
-
+            //SignInResult signInResult = await signInManager.CheckPasswordSignInAsync(user:user, password: password, lockoutOnFailure: lockoutOnFailure);
             var isCurrentPasswordValid  = await userManager.CheckPasswordAsync(user, password);
             if(!isCurrentPasswordValid)
             {

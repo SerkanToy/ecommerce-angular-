@@ -35,10 +35,10 @@ namespace ecommerce.api.Controllers
         public async Task<ActionResult<ApiResponse>> Login(LoginDto loginDto)
         {
             
-            var user = await userManager.Users.Where(u => u.Email == loginDto.Email.Trim()).FirstOrDefaultAsync();
+            var user = userManager.Users.Where(u => u.Email == loginDto.Email.Trim()).FirstOrDefault();
 
             if(user == null)
-                user = await userManager.Users.Where(u => u.UserName == loginDto.Email.Trim()).FirstOrDefaultAsync();
+                user = userManager.Users.Where(u => u.UserName == loginDto.Email.Trim()).FirstOrDefault();
 
             if (user == null)
                 return Unauthorized(new ApiResponse(401, message: "Kullanıcı bulunamadı", displayByDefault: true));
@@ -46,7 +46,7 @@ namespace ecommerce.api.Controllers
             if(!user.IsActive)
                 return Unauthorized(new ApiResponse(401, message: SM.T_AccountSuspended, displayByDefault: true));
 
-            var message = await UserPasswordValidationAsync(user, loginDto.Password, false);
+            var message = await UserPasswordValidationAsync(user, loginDto.Password, true);
 
             if (!string.IsNullOrEmpty(message))
             {

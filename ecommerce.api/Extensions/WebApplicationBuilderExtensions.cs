@@ -6,6 +6,7 @@ using ecommerce.api.Models.Domain.Entities.Users;
 using ecommerce.api.Models.Infrastructure.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -58,7 +59,7 @@ namespace ecommerce.api.Extensions
                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromDays(SD.DefaultLockoutTimeSpanInDays);
             })
             .AddRoles<RoleApp>()
-            //.AddSignInManager<SignInManager<UserApp>>() 
+            .AddSignInManager()
             .AddEntityFrameworkStores<EcommerceDbContext>();
 
             builder.Services.AddAuthentication(aut =>

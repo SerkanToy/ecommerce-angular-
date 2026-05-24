@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+builder.Services.AddCors();
 
 // Add services to the container.
 builder.Services.AddApplicationServer(builder.Configuration);
@@ -14,15 +15,15 @@ builder.AddAuthenticationService();
 
 var app = builder.Build();
 
-app.UseCors(x => x.AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed(origin => true).AllowCredentials());
+//app.UseCors(x => x.AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed(origin => true).AllowCredentials());
 
-/*app.UseCors(opt =>
+app.UseCors(opt =>
 {
     opt.AllowAnyHeader()
     .AllowAnyMethod()
     .AllowCredentials()
     .WithOrigins(builder.Configuration["JWT:ClientUrl"]);
-});*/
+});
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
