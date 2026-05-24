@@ -15,6 +15,11 @@ namespace ecommerce.api.Extensions
             var userNameClaim = user.FindFirst(ClaimTypes.Name)?.Value;
             return userNameClaim;
         }
+        public static string GetFullName(this ClaimsPrincipal user)
+        {
+            var fullNameClaim = user.FindFirst("FullName")?.Value;
+            return fullNameClaim;
+        }
         public static string GetUserEmail(this ClaimsPrincipal user)
         {
             var userEmailClaim = user.FindFirst(ClaimTypes.Email)?.Value;

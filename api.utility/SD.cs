@@ -35,6 +35,9 @@ namespace api.utility
         public const string Block = "block";
         public const string Unblock = "unblock";
 
+        public const string IdentityAppTokenProvider = "web";
+        public const string IdentityAppTokenName = "access_token";
+
         public static string AccountLockedMessage(DateTime endDate)
         {
             DateTime startDate = DateTime.UtcNow;

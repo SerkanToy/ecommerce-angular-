@@ -6,6 +6,7 @@ using ecommerce.api.Models.Domain.DTOs.UserDto;
 using ecommerce.api.Models.Domain.Entities.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +32,7 @@ namespace ecommerce.api.Controllers
 
         [HttpPost]
         [ActionName("login")]
-        public async Task<IActionResult> Login(LoginDto loginDto)
+        public async Task<ActionResult<ApiResponse>> Login(LoginDto loginDto)
         {
             
             var user = await userManager.Users.Where(u => u.Email == loginDto.Email.Trim()).FirstOrDefaultAsync();
@@ -52,12 +53,16 @@ namespace ecommerce.api.Controllers
                 RemoveJwtCookie();
                 return Unauthorized(new ApiResponse(401, message: message, displayByDefault: true, isHtmlEnabled: true));
             }
-            return Ok(await CreateAppUserDtoAsync(user));
+            return Ok(new ApiResponse(
+                statusCode : 200,
+                message : "Giriş başarılı",
+                data : await CreateAppUserDtoAsync(user)
+            ));
         }
 
         [Authorize]
         [HttpGet]
-        [ActionName("")]
+        [ActionName("refresh-user")]
         public async Task<ActionResult<UserAppDto>> RefreshAppUser()
         {
             var user = await userManager.Users.Where(x => x.Id == User.GetUserId()).FirstOrDefaultAsync();
@@ -68,7 +73,11 @@ namespace ecommerce.api.Controllers
             }
             
 
-            return Ok(await CreateAppUserDtoAsync(user));
+            return Ok(new ApiResponse(
+                statusCode: 200,
+                message: "Giriş başarılı",
+                data: await CreateAppUserDtoAsync(user)
+            ));
         }
 
         [HttpGet]

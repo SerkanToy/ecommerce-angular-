@@ -95,6 +95,8 @@ namespace ecommerce.api.Controllers
             RemoveJwtCookie();
             string jwt = await tokenService.CreateJWTAsync(user);
             SetJWTCookie(jwt);
+            var result = await userManager.SetAuthenticationTokenAsync(user, SD.IdentityAppTokenProvider, SD.IdentityAppTokenName, jwt);
+            
             return new UserAppDto
             {
                 Name = $"{user.Name} {user.SurName}",

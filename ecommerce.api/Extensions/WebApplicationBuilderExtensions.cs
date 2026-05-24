@@ -1,15 +1,18 @@
 ﻿using api.utility;
 using ecommerce.api.Models.Application.IServices;
 using ecommerce.api.Models.Application.Services;
+using ecommerce.api.Models.Domain.DTOs;
 using ecommerce.api.Models.Domain.Entities.Users;
 using ecommerce.api.Models.Infrastructure.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,6 +27,17 @@ namespace ecommerce.api.Extensions
                 string connectionString = configuration.GetConnectionString("SqlServer")!;
                 options.UseSqlServer(connectionString);
             });
+
+
+            service.Configure<ApiBehaviorOptions>(options => { 
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var errors = context.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                    var apiResponse = new ApiResponse(400, message: "Geçersiz istek", data:null ,errors: errors, displayByDefault: true);
+                    return new BadRequestObjectResult(apiResponse);
+                };
+            });
+
 
             return service;
         }
