@@ -96,7 +96,7 @@ namespace ecommerce.api.Controllers
 
 
         [Authorize]
-        [HttpPost]
+        [HttpGet]
         [ActionName("logout")]
         public IActionResult Logout()
         {
