@@ -7,10 +7,10 @@
                 <div id="basicsAccordion">
                     <!-- Card -->
                     <div class="card border-0">
-                        <div class="card-header card-collapse border-0" id="basicsHeadingOne"  (click)="toggleCollapsed()">
+                        <div class="card-header card-collapse border-0" id="basicsHeadingOne">
                             <button type="button"
                                 class="btn-link btn-remove-focus btn-block d-flex card-btn py-3 text-lh-1 px-4 shadow-none btn-primary rounded-top-lg border-0 font-weight-bold text-gray-90"
-                                data-toggle="collapse" data-target="#basicsCollapseOne" aria-expanded="true"
+                                data-toggle="collapse" data-target="#basicsCollapseOne" aria-expanded="false"
                                 aria-controls="basicsCollapseOne">
                                 <span class="ml-0 text-gray-90 mr-2">
                                     <span class="fa fa-list-ul"></span>
@@ -18,8 +18,7 @@
                                 <span class="pl-1 text-gray-90">All Departments</span>
                             </button>
                         </div>
-                       
-                        <div id="basicsCollapseOne"  class="collapse vertical-menu"  [ngClass]="{'collapse': collapse}" aria-labelledby="basicsHeadingOne"
+                       <div id="basicsCollapseOne"  class="collapse vertical-menu evet" aria-labelledby="basicsHeadingOne"
                             data-parent="#basicsAccordion">
                             <div class="card-body p-0">
                                 <nav
@@ -478,7 +477,8 @@
                                     </div>
                                 </nav>
                             </div>
-                        </div>
+                            </div>
+                        
                     </div>
                     <!-- End Card -->
                 </div>

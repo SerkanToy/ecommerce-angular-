@@ -1,0 +1,21 @@
+@if(title && message)
+{
+    <div class="modal-header" [ngClass]="{'bg-success' :isSuccess, 'bg-danger':!isSuccess}">
+        <h5 class="modal-title">{{title}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        @if(isHtmlEnabled)
+        {
+        <span [innerHTML]="message"></span>
+        }
+        @else
+        {
+        <p>{{message}}</p>
+        }
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)='activeModel.dismiss("Cross click")'>Kapat</button>
+        <button type="button" class="btn btn-default" (click)='activeModel.dismiss("Cross click")'>Tamam</button>
+    </div>
+}

@@ -1,0 +1,23 @@
+import { Component, Input } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
+@Component({
+  selector: 'app-confirm-box-component',
+  imports: [NgbActiveModal],
+  templateUrl: './confirm-box-component.html',
+  styleUrl: './confirm-box-component.css',
+})
+export class ConfirmBoxComponent {
+  @Input() message: string = '';
+  result?: boolean;
+
+  constructor(public activeModal: NgbActiveModal) { }
+
+  yes() {
+    this.activeModal.close(true);
+  }
+
+  no() {
+    this.activeModal.close(false);
+  }
+}
