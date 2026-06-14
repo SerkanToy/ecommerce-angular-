@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { forwardRef, Inject, Injectable } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { ApiResponse } from './models/apiResponse_m';
@@ -9,9 +9,10 @@ import { ConfirmBoxComponent } from './components/confirm-box-component/confirm-
 @Injectable({
   providedIn: 'root'
 })
+
 export class SharedService {
   constructor(private toastr: ToastrService,
-    private modalService: NgbModal
+    @Inject(forwardRef(() => NgbModal)) private modalService: NgbModal
   ) {}
 
   showNotification(apiResponse: ApiResponse<any>, backdrop: boolean = false) {

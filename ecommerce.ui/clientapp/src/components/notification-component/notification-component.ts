@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, forwardRef, Inject, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -9,9 +9,18 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrl: './notification-component.css',
 })
 export class NotificationComponent {
+  
   @Input() isSuccess: boolean = true;
   @Input() title: string = '';
   @Input() message: string = '';
   @Input() isHtmlEnabled: boolean = false;
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(@Inject(forwardRef(() => NgbActiveModal)) public activeModal: NgbActiveModal) {}
+
+  yes() {
+    this.activeModal.close(true);
+  }
+
+  no() {
+    this.activeModal.close(false);
+  }
 }
